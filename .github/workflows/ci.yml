@@ -1,0 +1,47 @@
+# .github/workflows/ci.yml
+name: CI Quality Gate
+
+# This workflow runs on pushes and pull requests to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # The single job in this workflow is to run all our quality checks
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Get the code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the correct Node.js environment
+      # It automatically reads the version from the .nvmrc file
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm' # Enable caching for npm dependencies
+
+      # Step 3: Install dependencies using 'npm ci'
+      # 'ci' is faster and more reliable for CI environments than 'install'
+      - name: Install Dependencies
+        run: npm ci
+
+      # Step 4: Run the linter to check for code style and quality issues
+      - name: Run Linter
+        run: npm run lint
+
+      # Step 5: Run the TypeScript compiler to check for type errors
+      - name: Run Type Checker
+        run: npm run typecheck
+
+      # Step 6: Run the build command to ensure the project compiles successfully
+      - name: Run Build
+        run: npm run build

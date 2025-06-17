@@ -35,10 +35,10 @@
         ```bash
         npm install -D eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks @typescript-eslint/eslint-plugin
         ```
-    -   [ ] **Configure `.eslintrc.json`:** Update the configuration to include stricter rules for import sorting, accessibility, and React hooks. This prevents common errors and keeps the code clean.
+    -   [x] **Configure `.eslintrc.json`:** Update the configuration to include stricter rules for import sorting, accessibility, and React hooks. This prevents common errors and keeps the code clean.
         *Senior Tip: A well-configured linter is like a constant code review partner.*
-    -   [ ] **Configure Prettier:** Create a `.prettierrc` file in the root. Define your team's formatting rules (e.g., `semi: true`, `singleQuote: true`, `trailingComma: "es5"`). This eliminates all formatting debates.
-    -   [ ] **Update `package.json` scripts:** Add scripts for easy access.
+    -   [x] **Configure Prettier:** Create a `.prettierrc` file in the root. Define your team's formatting rules (e.g., `semi: true`, `singleQuote: true`, `trailingComma: "es5"`). This eliminates all formatting debates.
+    -   [x] **Update `package.json` scripts:** Add scripts for easy access.
         ```json
         "scripts": {
           "dev": "next dev",
@@ -50,21 +50,53 @@
         }
         ```
 
--   [ ] **1.3: Set Up a Git Repository and CI/CD Pipeline**
-    -   [ ] Run `git init` in the project root.
-    -   [ ] Create a `.gitignore` file (Next.js should provide a good default). Add `.env.local` to it.
-    -   [ ] Create a new repository on GitHub and push your initial commit.
-    -   [ ] **Create a CI (Continuous Integration) workflow:**
-        -   [ ] Create the directory structure: `.github/workflows/`.
-        -   [ ] Inside, create a new file named `ci.yml`.
-        -   [ ] Configure the YAML file to run on every push to the `main` branch. It must perform the following jobs:
-            1.  Check out the code.
-            2.  Install dependencies using `npm ci` (which is faster and safer than `npm install` for CI environments).
-            3.  Run the linter (`npm run lint`).
-            4.  Run the type-checker (`npm run typecheck`).
-            5.  Run the build command (`npm run build`).
-        *Senior Tip: If the pipeline fails, the code is not ready to be merged. This is our quality gate.*
+# .github/workflows/ci.yml
+name: CI Quality Gate
 
+# This workflow runs on pushes and pull requests to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # The single job in this workflow is to run all our quality checks
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Get the code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the correct Node.js environment
+      # It automatically reads the version from the .nvmrc file
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm' # Enable caching for npm dependencies
+
+      # Step 3: Install dependencies using 'npm ci'
+      # 'ci' is faster and more reliable for CI environments than 'install'
+      - name: Install Dependencies
+        run: npm ci
+
+      # Step 4: Run the linter to check for code style and quality issues
+      - name: Run Linter
+        run: npm run lint
+
+      # Step 5: Run the TypeScript compiler to check for type errors
+      - name: Run Type Checker
+        run: npm run typecheck
+
+      # Step 6: Run the build command to ensure the project compiles successfully
+      - name: Run Build
+        run: npm run build
 ---
 
 #### **Section 2: Backend & Database Setup**
