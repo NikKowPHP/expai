@@ -162,23 +162,23 @@ jobs:
 #### **Section 4: Authentication**
 *The goal is to create a secure and seamless authentication experience. We will abstract the logic away from the UI components.*
 
--   [ ] **4.1: Create an Abstracted Supabase Client**
-    -   [ ] Create a helper file at `src/lib/supabase/client.ts`.
-    -   [ ] In this file, initialize and export a singleton instance of the Supabase client using the environment variables. This ensures we don't create multiple connections.
+-   [x] **4.1: Create an Abstracted Supabase Client**
+    -   [x] Create a helper file at `src/lib/supabase/client.ts`.
+    -   [x] In this file, initialize and export a singleton instance of the Supabase client using the environment variables. This ensures we don't create multiple connections.
 
--   [ ] **4.2: Implement Authentication Pages**
-    -   [ ] Create the file structure for auth pages: `src/app/(auth)/login/page.tsx` and `src/app/(auth)/signup/page.tsx`.
-    -   [ ] Build the UI for the login and sign-up forms using Fluent 2 components (`Input`, `Button`, etc.).
+-   [x] **4.2: Implement Authentication Pages**
+    -   [x] Create the file structure for auth pages: `src/app/(auth)/login/page.tsx` and `src/app/(auth)/signup/page.tsx`.
+    -   [x] Build the UI for the login and sign-up forms using Fluent 2 components (`Input`, `Button`, etc.).
 
--   [ ] **4.3: Implement Authentication Logic**
-    -   [ ] Write the "handler" functions for sign-up and login. These functions will take email/password, call the Supabase client's `signUp` or `signInWithPassword` methods, and handle success or error states.
+-   [x] **4.3: Implement Authentication Logic**
+    -   [x] Write the "handler" functions for sign-up and login. These functions will take email/password, call the Supabase client's `signUp` or `signInWithPassword` methods, and handle success or error states.
         *Senior Tip: Keep this logic separate from the UI components. The component should only call the handler and react to the result.*
 
--   [ ] **4.4: Implement Protected Routes using Middleware**
-    -   [ ] Create a `middleware.ts` file in your `src/` directory.
-    -   [ ] In this middleware, check for the user's session cookie.
-    -   [ ] If the user is trying to access a protected page (e.g., `/dashboard`) and is not logged in, redirect them to the `/login` page.
-    -   [ ] If the user is logged in and tries to access `/login`, redirect them to the `/dashboard`.
+-   [x] **4.4: Implement Protected Routes using Middleware**
+    -   [x] Create a `middleware.ts` file in your `src/` directory.
+    -   [x] In this middleware, check for the user's session cookie.
+    -   [x] If the user is trying to access a protected page (e.g., `/dashboard`) and is not logged in, redirect them to the `/login` page.
+    -   [x] If the user is logged in and tries to access `/login`, redirect them to the `/dashboard`.
 
 ---
 
