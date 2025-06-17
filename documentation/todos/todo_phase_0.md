@@ -185,9 +185,9 @@ jobs:
 ### **Definition of Done for Phase 0**
 
 You have successfully completed this phase when:
--   [ ] The CI pipeline on GitHub passes successfully for `lint`, `typecheck`, and `build`.
--   [ ] You can successfully sign up for a new account.
--   [ ] You can log in and log out.
--   [ ] Attempting to access the (not yet created) `/dashboard` page while logged out redirects you to `/login`.
+-   [x] The CI pipeline on GitHub passes successfully for `lint`, `typecheck`, and `build`.
+-   [x] You can successfully sign up for a new account.
+-   [x] You can log in and log out.
+-   [x] Attempting to access the (not yet created) `/dashboard` page while logged out redirects you to `/login`.
 -   [ ] All tables exist in the Supabase database and have RLS enabled.
 -   [ ] You feel confident that the project is clean, secure, and ready for feature development.

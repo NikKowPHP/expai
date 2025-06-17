@@ -1,26 +1,36 @@
 // src/components/layout/AppLayout.tsx
 
+// 1. Mark this as a Client Component
 "use client";
 
-import {
-  Body1,
-  Button,
-  Card,
-  Title3,
-} from "@fluentui/react-components";
+import { Body1, Button, Card, Title3 } from "@fluentui/react-components";
+import { useRouter } from "next/navigation"; // 2. Import useRouter
 import React from "react";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  return (
-    // 1. Main container: full screen height, flexbox layout
-    <div className="flex h-screen w-screen bg-gray-100 dark:bg-gray-900">
+  const router = useRouter(); // 3. Initialize the router
 
-      {/* --- SIDEBAR --- */}
-      {/* 2. Sidebar: fixed width, flex column, background color */}
+  // 4. Create the logout handler function
+  const handleLogout = async () => {
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+
+    if (response.ok) {
+      // On successful logout, redirect to the login page
+      router.push("/login");
+      router.refresh(); // Ensure all server-side data is cleared
+    } else {
+      // Handle logout error
+      alert("Logout failed. Please try again.");
+    }
+  };
+
+  return (
+    <div className="flex h-screen w-screen bg-gray-100 dark:bg-gray-900">
       <aside className="w-64 flex-shrink-0 p-4 flex flex-col bg-slate-50 dark:bg-slate-800">
         <Title3 className="mb-6">Expai</Title3>
 
-        {/* Navigation Links using Fluent UI Buttons */}
         <nav className="flex flex-col gap-2">
           <Button appearance="transparent">Dashboard</Button>
           <Button appearance="transparent">Transactions</Button>
@@ -28,26 +38,20 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <Button appearance="transparent">Categories</Button>
         </nav>
 
-        {/* Spacer to push profile to the bottom */}
         <div className="flex-grow" />
 
-        {/* Profile/Logout section */}
         <div className="flex flex-col gap-2">
           <Button appearance="transparent">Profile</Button>
-          <Button>Logout</Button>
+          {/* 5. Attach the handler to the Logout button's onClick event */}
+          <Button onClick={handleLogout}>Logout</Button>
         </div>
       </aside>
 
-      {/* --- MAIN CONTENT AREA --- */}
-      {/* 3. Main content: flex-grow makes it take up the remaining space */}
       <main className="flex-grow p-4">
-        {/* We use a Card to give the content area a nice frame */}
         <Card className="h-full w-full">
-          {/* The key part is rendering the `{children}` prop here. */}
           <Body1>{children}</Body1>
         </Card>
       </main>
-
     </div>
   );
 }
