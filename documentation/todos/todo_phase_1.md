@@ -15,20 +15,20 @@
 #### **Section 1: Frontend - The Upload Interface**
 *The goal here is to create a seamless and informative user experience for the file upload process. The user should always know what's happening.*
 
--   [ ] **1.1: Build the File Upload Component**
-    -   [ ] Create a new component at `src/components/upload/StatementUploader.tsx`.
-    -   [ ] Use Fluent 2 components to build the UI:
+-   [x] **1.1: Build the File Upload Component**
+    -   [x] Create a new component at `src/components/upload/StatementUploader.tsx`.
+    -   [x] Use Fluent 2 components to build the UI:
         -   A "drag and drop" area or a simple `<input type="file" />` styled with a Fluent `Button`.
         -   A `Spinner` to show when processing is in progress.
         -   A `MessageBar` to display success (`intent="success"`) or error (`intent="error"`) messages to the user.
-    -   [ ] **State Management:** Use the `useState` hook to manage the component's state. You will need states for:
+    -   [x] **State Management:** Use the `useState` hook to manage the component's state. You will need states for:
         -   `const [file, setFile] = useState<File | null>(null);`
         -   `const [status, setStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');`
         -   `const [errorMessage, setErrorMessage] = useState<string | null>(null);`
 
--   [ ] **1.2: Implement the Frontend Upload Logic**
-    -   [ ] Create a `handleSubmit` function that will be triggered when the user clicks the "Upload" button.
-    -   [ ] **Inside `handleSubmit`:**
+-   [x] **1.2: Implement the Frontend Upload Logic**
+    -   [x] Create a `handleSubmit` function that will be triggered when the user clicks the "Upload" button.
+    -   [x] **Inside `handleSubmit`:**
         1.  Check if a file has been selected. If not, show an error.
         2.  Set status to `'uploading'`.
         3.  Create a `FormData` object: `const formData = new FormData();`.
@@ -39,7 +39,7 @@
             -   If the response is successful (`response.ok`), set status to `'success'`.
             -   If the response fails, parse the error message from the JSON body, set status to `'error'`, and update `setErrorMessage`.
         8.  Use a `try...catch` block around your fetch call to handle network errors.
-    -   [ ] **UI Rendering:** Your component's return statement should conditionally render UI based on the `status` state (e.g., show the form when `idle`, the `Spinner` when `uploading`, etc.).
+    -   [x] **UI Rendering:** Your component's return statement should conditionally render UI based on the `status` state (e.g., show the form when `idle`, the `Spinner` when `uploading`, etc.).
 
 ---
 
@@ -93,7 +93,7 @@
               Extract all transactions and return them as a JSON array of objects with this exact structure: { "date": "YYYY-MM-DD", "description": "Transaction Description", "amount": 123.45 }.
               The amount should be negative for debits/expenses and positive for credits/income.
               Ignore all summary text, marketing messages, and balances. Only return the JSON array.
-              
+
               Text to analyze:
               ${rawText}
             `;
@@ -128,11 +128,11 @@
         // After security and validation...
         const rawText = await parseStatement(file);
         const categorizedData = await categorizeTransactions(rawText);
-        
+
         // Note: For now, you might hardcode an accountId or create a default one.
         // We'll build account management later.
         const result = await saveNewTransactions(categorizedData, session.user.id, someAccountId);
-        
+
         return NextResponse.json({ success: true, newTransactionsCount: result.count });
         ```
     -   Enhance your `catch` block to log the error on the server and return a generic, user-friendly error message.
