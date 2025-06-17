@@ -15,7 +15,7 @@
 #### **Section 1: The Dashboard - The User's Home Base**
 *The goal is to build the main dashboard page. We will use Next.js App Router's server components to fetch data efficiently and securely on the server, passing it down to client components for interactivity.*
 
--   [ ] **1.1: Create the Dashboard Page & Server-Side Data Fetching**
+-   [x] **1.1: Create the Dashboard Page & Server-Side Data Fetching**
     -   [ ] Create the dashboard page file at `src/app/(app)/dashboard/page.tsx`.
         *Senior Tip: The `(app)` folder is a "Route Group". It allows us to apply a shared layout to all pages within it (like a sidebar) without affecting the URL path.*
     -   [ ] This page will be an `async` React Server Component (RSC). This is the default in the App Router.
@@ -29,12 +29,12 @@
 
             export default async function DashboardPage() {
               // Authentication logic to get userId...
-            
+
               const transactions = await prisma.transaction.findMany({
                 where: { userId: userId },
                 include: {
                   category: { // This performs a JOIN
-                    select: { name: true } 
+                    select: { name: true }
                   }
                 },
                 orderBy: { transactionDate: 'desc' },
@@ -45,7 +45,7 @@
             }
             ```
 
--   [ ] **1.2: Build the Reusable `TransactionTable` Component**
+-   [x] **1.2: Build the Reusable `TransactionTable` Component**
     -   [ ] Create a new client component file: `src/components/transactions/TransactionTable.tsx`. Mark it with `"use client";` at the top.
     -   [ ] **Use the Fluent 2 `DataGrid` component.** This is much more powerful than a standard `<table>`.
     -   [ ] The component will accept the `transactions` data as a prop.
@@ -61,7 +61,7 @@
 #### **Section 2: Visualizations - Telling the Story with Data**
 *The goal is to provide at-a-glance insights using charts. We'll do the heavy data aggregation on the server for maximum performance.*
 
--   [ ] **2.1: Implement Server-Side Data Aggregation for Charts**
+-   [x] **2.1: Implement Server-Side Data Aggregation for Charts**
     -   [ ] In a new file, `src/lib/data/getFinancialSummary.ts`, create a server-only function.
     -   [ ] This function will use Prisma's powerful `groupBy` and `aggregate` features to calculate total spending per category.
         ```typescript
@@ -71,7 +71,7 @@
         export async function getSpendingByCategory(userId: string) {
           const spendingData = await prisma.transaction.groupBy({
             by: ['categoryId'],
-            where: { 
+            where: {
               userId: userId,
               amount: { lt: 0 } // Only sum expenses
             },
@@ -85,7 +85,7 @@
         }
         ```
 
--   [ ] **2.2: Build the Reusable `SpendingDonutChart` Component**
+-   [x] **2.2: Build the Reusable `SpendingDonutChart` Component**
     -   [ ] Install a charting library: `npm install recharts`.
     -   [ ] Create a new client component: `src/components/charts/SpendingDonutChart.tsx` (remember `"use client";`).
     -   [ ] Use `Recharts` components (`PieChart`, `Pie`, `Cell`, `Tooltip`, `Legend`) to build the donut chart.
@@ -102,7 +102,7 @@
 #### **Section 3: User Control - Building Trust and Accuracy**
 *The goal is to empower users to correct the AI's mistakes. This is critical for user trust and long-term engagement. This involves client-side state and server-side mutations.*
 
--   [ ] **3.1: Implement "Edit Transaction Category" Functionality**
+-   [x] **3.1: Implement "Edit Transaction Category" Functionality**
     -   [ ] **Create the API Endpoint for Updates:**
         -   Create a dynamic API route: `src/app/api/transactions/[id]/route.ts`.
         -   Implement a `PATCH` function.
@@ -125,11 +125,11 @@
 
             const router = useRouter();
             // after successful fetch...
-            router.refresh(); 
+            router.refresh();
             // This tells Next.js to re-fetch the server component data and update the UI.
             ```
 
--   [ ] **3.2: Build the Category Management Page**
+-   [x] **3.2: Build the Category Management Page**
     -   [ ] Create a new page: `src/app/(app)/categories/page.tsx`.
     -   [ ] On this page, fetch and display a list of all the user's categories using a `DataGrid`.
     -   [ ] **Implement "Rename" functionality:**
