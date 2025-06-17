@@ -46,12 +46,12 @@
 #### **Section 2: Backend - The API Endpoint**
 *The goal is to create a secure API endpoint that acts as an orchestrator. It will receive the file and delegate the complex work to specialized services.*
 
--   [ ] **2.1: Create the API Route File**
+-   [x] **2.1: Create the API Route File**
     -   [ ] Create the file: `src/app/api/transactions/upload/route.ts`.
     -   [ ] Define an asynchronous function `export async function POST(request: Request) { ... }`.
 
--   [ ] **2.2: Implement Security and Input Validation**
-    -   [ ] **Inside the `POST` function:**
+-   [x] **2.2: Implement Security and Input Validation**
+    -   [x] **Inside the `POST` function:**
         1.  **Authentication:** The very first step is to get the current user's session from Supabase. If there is no user, immediately return a `401 Unauthorized` error.
             ```typescript
             // You will need to create a server-side Supabase client helper
