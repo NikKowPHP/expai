@@ -102,10 +102,10 @@ jobs:
 #### **Section 2: Backend & Database Setup**
 *The goal is to connect our app to a secure and reliable data source. We will use Prisma for type-safe database access, which eliminates a whole class of runtime errors.*
 
--   [ ] **2.1: Initialize Supabase Project**
-    -   [ ] Go to [supabase.com](https://supabase.com), create an account, and start a new project.
-    -   [ ] Save your **Project URL** and **`anon` key**.
-    -   [ ] Create a `.env.local` file in your project root (this file is git-ignored). Add your Supabase credentials there:
+-   [x] **2.1: Initialize Supabase Project**
+    -   [x] Go to [supabase.com](https://supabase.com), create an account, and start a new project.
+    -   [x] Save your **Project URL** and **`anon` key**.
+    -   [x] Create a `.env.local` file in your project root (this file is git-ignored). Add your Supabase credentials there:
         ```
         NEXT_PUBLIC_SUPABASE_URL=YOUR_PROJECT_URL
         NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_ANON_KEY
