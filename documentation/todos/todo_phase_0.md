@@ -116,9 +116,9 @@ jobs:
 -   [ ] **2.2: Implement the Database Schema with Prisma**
     -   [x] Install Prisma: `npm install -D prisma`.
     -   [x] Initialize Prisma: `npx prisma init`. This creates a `prisma/schema.prisma` file.
-    -   [ ] **Copy the complete, final Prisma schema** (from our previous documentation) into your `prisma/schema.prisma` file.
+    -   [x] **Copy the complete, final Prisma schema** (from our previous documentation) into your `prisma/schema.prisma` file.
     -   [ ] Push the schema to your Supabase database: `npx prisma db push`. This will create all the tables, columns, and relations defined in your schema.
-    -   [ ] Generate the Prisma Client: `npx prisma generate`. You must run this command every time you change the schema.
+    -   [x] Generate the Prisma Client: `npx prisma generate`. You must run this command every time you change the schema.
 
 -   [ ] **2.3: Implement Row Level Security (RLS)**
     *This is a non-negotiable security step. It ensures that even if a user bypasses the application logic, they can NEVER access another user's data from the database.*
@@ -147,7 +147,7 @@ jobs:
 *The goal is to set up our design system and core layout components. This ensures a consistent look and feel across the entire application.*
 
 -   [ ] **3.1: Integrate Microsoft Fluent 2 and Configure Tailwind CSS**
-    -   [ ] Install the Fluent 2 React library: `npm install @fluentui/react-components`.
+    -   [x] Install the Fluent 2 React library: `npm install @fluentui/react-components`.
     -   [ ] Configure the `tailwind.config.ts` file to ensure it co-exists with Fluent 2 without conflicts.
     -   [ ] Set up the `FluentProvider` at the root of your application (in `src/app/layout.tsx`) to provide the theme to all child components.
 
