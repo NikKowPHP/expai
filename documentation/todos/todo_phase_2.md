@@ -129,7 +129,7 @@
             // This tells Next.js to re-fetch the server component data and update the UI.
             ```
 
--   [ ] **3.2: Build the Category Management Page**
+-   [x] **3.2: Build the Category Management Page**
     -   [ ] Create a new page: `src/app/(app)/categories/page.tsx`.
     -   [ ] On this page, fetch and display a list of all the user's categories using a `DataGrid`.
     -   [ ] **Implement "Rename" functionality:**

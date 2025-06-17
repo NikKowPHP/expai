@@ -34,16 +34,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
         <nav className="flex flex-col gap-2">
                 {/* Wrap buttons in Link components for client-side navigation */}
-                <Link href="/dashboard" passHref legacyBehavior>
+                <Link href="/dashboard" passHref>
                     <Button appearance="transparent">Dashboard</Button>
                 </Link>
-                <Link href="/transactions" passHref legacyBehavior>
+                <Link href="/transactions" passHref>
                     <Button appearance="transparent">Transactions</Button>
                 </Link>
-                <Link href="/budgets" passHref legacyBehavior>
+                <Link href="/budgets" passHref>
                     <Button appearance="transparent">Budgets</Button>
                 </Link>
-                <Link href="/categories" passHref legacyBehavior>
+                <Link href="/categories" passHref>
                     <Button appearance="transparent">Categories</Button>
                 </Link>
             </nav>
