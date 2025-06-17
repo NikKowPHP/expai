@@ -148,14 +148,14 @@ jobs:
 
 -   [ ] **3.1: Integrate Microsoft Fluent 2 and Configure Tailwind CSS**
     -   [x] Install the Fluent 2 React library: `npm install @fluentui/react-components`.
-    -   [ ] Configure the `tailwind.config.ts` file to ensure it co-exists with Fluent 2 without conflicts.
-    -   [ ] Set up the `FluentProvider` at the root of your application (in `src/app/layout.tsx`) to provide the theme to all child components.
+    -   [x] Configure the `tailwind.config.ts` file to ensure it co-exists with Fluent 2 without conflicts.
+    -   [x] Set up the `FluentProvider` at the root of your application (in `src/app/layout.tsx`) to provide the theme to all child components.
 
 -   [ ] **3.2: Develop the Core `AppLayout` Component**
-    -   [ ] Create a new component at `src/components/layout/AppLayout.tsx`.
-    -   [ ] This component will be responsible for the main application structure: a persistent sidebar for navigation and a main content area.
-    -   [ ] Use Fluent 2 components (`Splitter`, `Nav`, `Card`, etc.) to build this structure.
-    -   [ ] This component will wrap the `children` prop, so it can be used in your `layout.tsx` files to provide a consistent frame for all pages.
+    -   [x] Create a new component at `src/components/layout/AppLayout.tsx`.
+    -   [x] This component will be responsible for the main application structure: a persistent sidebar for navigation and a main content area.
+    -   [x] Use Fluent 2 components (`Splitter`, `Nav`, `Card`, etc.) to build this structure.
+    -   [x] This component will wrap the `children` prop, so it can be used in your `layout.tsx` files to provide a consistent frame for all pages.
 
 ---
 
