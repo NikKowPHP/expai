@@ -1,0 +1,51 @@
+// .vscode/tasks.json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev: next",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "nextjs-dev",
+        "pattern": {
+          "regexp": "^\\s*○ .*"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\s*- event compiled successfully",
+          "endsPattern": "^"
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "test: jest",
+      "type": "npm",
+      "script": "test",
+      "group": "test"
+    },
+    {
+      "label": "db: generate prisma client",
+      "type": "shell",
+      "command": "npx prisma generate",
+      "problemMatcher": []
+    },
+    {
+      "label": "db: run prisma studio",
+      "type": "shell",
+      "command": "npx prisma studio",
+      "problemMatcher": []
+    },
+    {
+      "label": "db: migrate dev",
+      "type": "shell",
+      "command": "npx prisma migrate dev",
+      "problemMatcher": []
+    }
+  ]
+}

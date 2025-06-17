@@ -1,0 +1,54 @@
+// .vscode/settings.json
+{
+  // ---- General Editor & File Settings ----
+  "editor.tabSize": 2,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/out": true
+  },
+
+  // ---- Formatting & Linting on Save ----
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Use Prettier as the default formatter
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true // Auto-fix ESLint issues on save
+  },
+
+  // ---- Language/Tool Specific Settings ----
+
+  // For Prisma: Use the Prisma extension to format schema files
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
+  // For TypeScript/JavaScript: Ensure ESLint is validating these files
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // ---- Tailwind CSS Configuration ----
+  // Enable Tailwind CSS IntelliSense and class sorting with Prettier
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // ---- Jest Configuration ----
+  // Tell the Jest extension to use your project's config and run automatically
+  "jest.jestCommandLine": "npm test --",
+  "jest.autoEnable": true,
+  "jest.showCoverageOnLoad": true
+}
