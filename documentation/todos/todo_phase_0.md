@@ -18,17 +18,17 @@
 #### **Section 1: Project Initialization & Tooling**
 *The goal here is to create a project that enforces quality and consistency from the very first line of code. Automation is key.*
 
--   [ ] **1.1: Initialize a Strict, Modern Next.js Project**
-    -   [ ] In your terminal, run `npx create-next-app@latest` to initialize the project.
-    -   [ ] **Select the following options during setup:**
+-   [x] **1.1: Initialize a Strict, Modern Next.js Project**
+    -   [x] In your terminal, run `npx create-next-app@latest` to initialize the project.
+    -   [x] **Select the following options during setup:**
         -   Use TypeScript: **Yes**
         -   Use ESLint: **Yes**
         -   Use Tailwind CSS: **Yes**
         -   Use `src/` directory: **Yes**
         -   Use App Router: **Yes**
         -   Import alias: Leave as `@/*`
-    -   [ ] Once created, `cd` into the project directory and run `npm install` to ensure all dependencies are present.
-    -   [ ] Create a `.nvmrc` file in the root and add the current LTS version of Node.js (e.g., `v20.10.0`) to ensure consistent environments.
+    -   [x] Once created, `cd` into the project directory and run `npm install` to ensure all dependencies are present.
+    -   [x] Create a `.nvmrc` file in the root and add the current LTS version of Node.js (e.g., `v20.10.0`) to ensure consistent environments.
 
 -   [ ] **1.2: Configure Professional-Grade Linting and Formatting**
     -   [ ] **Install additional ESLint plugins:**
