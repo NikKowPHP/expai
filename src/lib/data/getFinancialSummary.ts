@@ -31,7 +31,7 @@ export async function getSpendingByCategory(
 
   // 2. The result from groupBy doesn't include category names, just IDs.
   // We need to fetch the names separately.
-  const categoryIds = spendingData.map((item: { categoryId: unknown; }) => item.categoryId!);
+  const categoryIds = spendingData.map((item) => item.categoryId as string);
   const categories = await prisma.category.findMany({
     where: {
       id: { in: categoryIds },
@@ -43,11 +43,11 @@ export async function getSpendingByCategory(
   });
 
   // Create a quick lookup map for category names
-  const categoryNameMap = new Map(categories.map((c: { id: unknown; name: unknown; }) => [c.id, c.name]));
+  const categoryNameMap = new Map(categories.map((c) => [c.id, c.name as string]));
 
   // 3. Format the data for the charting library
-  const formattedChartData = spendingData.map((item: { categoryId: unknown; _sum: { amount: unknown; }; }) => ({
-    name: categoryNameMap.get(item.categoryId!) || "Unknown",
+  const formattedChartData = spendingData.map((item) => ({
+    name: categoryNameMap.get(item.categoryId as string) || "Unknown",
     // The sum will be negative, so we multiply by -1 to make it a positive value for the chart
     value: Math.abs(Number(item._sum.amount)),
   }));

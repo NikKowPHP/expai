@@ -1,7 +1,6 @@
 // src/lib/services/transactionService.ts
 import { createHash } from "crypto";
 
-import { Transaction } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
 import { ParsedTransaction } from "@/lib/types";
 
@@ -89,7 +88,7 @@ export async function saveNewTransactions(
   });
 
   const existingSignatureSet = new Set(
-    existingSignatures.map((tx: Transaction) => tx.signature)
+    existingSignatures.map((tx) => tx.signature)
   );
 
   // 3. Filter the incoming transactions, keeping only the new ones.
