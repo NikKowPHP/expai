@@ -4,6 +4,7 @@
 "use client";
 
 import { Body1, Button, Card, Title3 } from "@fluentui/react-components";
+import Link from "next/link";
 import { useRouter } from "next/navigation"; // 2. Import useRouter
 import React from "react";
 
@@ -32,11 +33,20 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <Title3 className="mb-6">Expai</Title3>
 
         <nav className="flex flex-col gap-2">
-          <Button appearance="transparent">Dashboard</Button>
-          <Button appearance="transparent">Transactions</Button>
-          <Button appearance="transparent">Budgets</Button>
-          <Button appearance="transparent">Categories</Button>
-        </nav>
+                {/* Wrap buttons in Link components for client-side navigation */}
+                <Link href="/dashboard" passHref legacyBehavior>
+                    <Button appearance="transparent">Dashboard</Button>
+                </Link>
+                <Link href="/transactions" passHref legacyBehavior>
+                    <Button appearance="transparent">Transactions</Button>
+                </Link>
+                <Link href="/budgets" passHref legacyBehavior>
+                    <Button appearance="transparent">Budgets</Button>
+                </Link>
+                <Link href="/categories" passHref legacyBehavior>
+                    <Button appearance="transparent">Categories</Button>
+                </Link>
+            </nav>
 
         <div className="flex-grow" />
 
