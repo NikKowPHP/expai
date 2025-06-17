@@ -31,7 +31,7 @@
     -   [x] Create a `.nvmrc` file in the root and add the current LTS version of Node.js (e.g., `v20.10.0`) to ensure consistent environments.
 
 -   [ ] **1.2: Configure Professional-Grade Linting and Formatting**
-    -   [ ] **Install additional ESLint plugins:**
+    -   [x] **Install additional ESLint plugins:**
         ```bash
         npm install -D eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks @typescript-eslint/eslint-plugin
         ```
