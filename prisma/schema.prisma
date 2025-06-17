@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Core user and application data
+model UserProfile {
+  id                   String   @id @default(uuid()) @map("id")
+  subscriptionStatus   String   @default("free") @map("subscription_status")
+  monthlyUploadsUsed   Int      @default(0) @map("monthly_uploads_used")
+  usagePeriodStart     DateTime @default(now()) @map("usage_period_start")
+  stripeCustomerId     String?  @unique @map("stripe_customer_id")
+  financialHealthScore Int?     @map("financial_health_score")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user             User              @relation(fields: [id], references: [id], onDelete: Cascade)
+  accounts         Account[]
+  categories       Category[]
+  transactions     Transaction[]
+  budgets          Budget[]
+  userAchievements UserAchievement[]
+
+  @@map("user_profiles")
+}
+
+// Financial entities
+model Account {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  accountType String   @map("account_type")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+  UserProfile   UserProfile?  @relation(fields: [userProfileId], references: [id])
+  userProfileId String?
+
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  // 'need', 'want', 'saving', or 'discretionary' for "Science of Money" analysis
+  type      String   @default("discretionary")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+  budgets       Budget[]
+  UserProfile   UserProfile?  @relation(fields: [userProfileId], references: [id])
+  userProfileId String?
+
+  @@index([userId])
+  @@map("categories")
+}
+
+model Transaction {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  accountId       String   @map("account_id")
+  categoryId      String?  @map("category_id")
+  description     String
+  amount          Decimal  @db.Decimal(19, 4)
+  transactionDate DateTime @map("transaction_date")
+  aiMetadata      Json?    @map("ai_metadata")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account       Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category      Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  userProfileId String?
+
+  @@index([userId])
+  @@index([transactionDate])
+  @@map("transactions")
+}
+
+model Budget {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  categoryId String   @map("category_id")
+  amount     Decimal  @db.Decimal(19, 4)
+  startDate  DateTime @map("start_date")
+  endDate    DateTime @map("end_date")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  userProfileId String?
+
+  @@index([userId])
+  @@map("budgets")
+}
+
+// Gamification entities
+model Achievement {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  iconName    String   @map("icon_name")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  userAchievements UserAchievement[]
+
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  achievementId String   @map("achievement_id")
+  unlockedAt    DateTime @default(now()) @map("unlocked_at")
+
+  // Relations
+  user        UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+// Supabase Auth models - defined for relation purposes
+model User {
+  id           String        @id @default(uuid())
+  userProfiles UserProfile?
+  accounts     Account[]
+  categories   Category[]
+  transactions Transaction[]
+  budgets      Budget[]
+
+  @@map("users")
+}

@@ -114,8 +114,8 @@ jobs:
         *(Find the `DATABASE_URL` in Supabase -> Project Settings -> Database -> Connection string).*
 
 -   [ ] **2.2: Implement the Database Schema with Prisma**
-    -   [ ] Install Prisma: `npm install -D prisma`.
-    -   [ ] Initialize Prisma: `npx prisma init`. This creates a `prisma/schema.prisma` file.
+    -   [x] Install Prisma: `npm install -D prisma`.
+    -   [x] Initialize Prisma: `npx prisma init`. This creates a `prisma/schema.prisma` file.
     -   [ ] **Copy the complete, final Prisma schema** (from our previous documentation) into your `prisma/schema.prisma` file.
     -   [ ] Push the schema to your Supabase database: `npx prisma db push`. This will create all the tables, columns, and relations defined in your schema.
     -   [ ] Generate the Prisma Client: `npx prisma generate`. You must run this command every time you change the schema.
