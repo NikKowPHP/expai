@@ -37,10 +37,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(newBudget, { status: 201 }); // 201 Created
-  } catch (error) {
+  } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }
+    // It's good practice to log unexpected errors for debugging
+    console.error("Failed to create budget:", error);
     return NextResponse.json(
       { error: "Failed to create budget" },
       { status: 500 }
