@@ -26,8 +26,10 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.10",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/papaparse": "^5.3.16",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.34.1",
@@ -37,9 +39,12 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "jest": "^30.0.0",
+    "jest-environment-jsdom": "^30.0.0",
     "prettier": "^3.5.3",
     "prisma": "^6.9.0",
     "tailwindcss": "^4.1.10",
+    "ts-jest": "^29.4.0",
     "typescript": "^5"
   }
 }

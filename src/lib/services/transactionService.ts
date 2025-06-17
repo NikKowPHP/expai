@@ -15,6 +15,39 @@ function createTransactionSignature(tx: ParsedTransaction): string {
   return createHash("sha256").update(signatureString).digest("hex");
 }
 
+
+
+/**
+ * Finds the user's default account or creates one if it doesn't exist.
+ * This is a temporary measure until full account management is implemented.
+ * @param userId The ID of the user.
+ * @returns A promise that resolves to the account object.
+ */
+export async function findOrCreateDefaultAccount(userId: string) {
+  const defaultAccountName = "Default Account";
+
+  let account = await prisma.account.findFirst({
+    where: {
+      userId: userId,
+      name: defaultAccountName,
+    },
+  });
+
+  if (!account) {
+    account = await prisma.account.create({
+      data: {
+        userId: userId,
+        name: defaultAccountName,
+        accountType: "checking", // A sensible default
+      },
+    });
+  }
+
+  return account;
+}
+
+
+
 /**
  * Saves new, non-duplicate transactions to the database for a specific user.
  * Handles all database logic and deduplication.
