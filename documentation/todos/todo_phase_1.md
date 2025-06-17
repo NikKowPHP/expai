@@ -69,7 +69,7 @@
 #### **Section 3: Core Services - The Engine Room (Senior-Level Abstraction)**
 *This is the most important part of Phase 1. We will NOT put all the logic into the API route. We will create separate, single-responsibility services. This makes the code testable, reusable, and easy to understand.*
 
--   [ ] **3.1: Create the `FileParsingService`**
+-   [x] **3.1: Create the `FileParsingService`**
     -   [ ] Create a new file: `src/lib/services/fileParser.ts`.
     -   [ ] Install necessary parsing libraries: `npm install pdf-parse papaparse`.
     -   [ ] **Create a function:** `export async function parseStatement(file: File): Promise<string> { ... }`.
@@ -81,7 +81,7 @@
         5.  Throw a specific error if the file type is unsupported.
     *Senior Tip: This service knows NOTHING about users, AI, or databases. Its only job is to turn a file into text.*
 
--   [ ] **3.2: Create the `AIService`**
+-   [x] **3.2: Create the `AIService`**
     -   [ ] Create a new file: `src/lib/services/aiService.ts`.
     -   [ ] **Create a function:** `export async function categorizeTransactions(rawText: string): Promise<ParsedTransaction[]> { ... }`. (`ParsedTransaction` will be a TypeScript `type` you define).
     -   [ ] **Inside the function:**
@@ -104,7 +104,7 @@
         5.  Return the validated array of transactions.
     *Senior Tip: This service knows NOTHING about files or databases. It only knows how to talk to the AI.*
 
--   [ ] **3.3: Create the `TransactionService`**
+-   [x] **3.3: Create the `TransactionService`**
     -   [ ] Create a new file: `src/lib/services/transactionService.ts`.
     -   [ ] Import your Prisma client instance.
     -   [ ] **Create a function:** `export async function saveNewTransactions(transactions: ParsedTransaction[], userId: string, accountId: string): Promise<{ count: number }> { ... }`.

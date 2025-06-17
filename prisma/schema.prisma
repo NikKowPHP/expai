@@ -86,7 +86,7 @@ model Transaction {
   aiMetadata      Json?    @map("ai_metadata")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
-
+  signature       String
   // Relations
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   account       Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
@@ -94,6 +94,7 @@ model Transaction {
   UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
   userProfileId String?
 
+  @@unique([userId, signature])
   @@index([userId])
   @@index([transactionDate])
   @@map("transactions")
