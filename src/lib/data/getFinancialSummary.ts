@@ -1,4 +1,6 @@
 // src/lib/data/getFinancialSummary.ts
+import { Budget } from "@prisma/client";
+
 import prisma from "@/lib/prisma";
 
 export type SpendingByCategoryData = {
@@ -53,4 +55,68 @@ export async function getSpendingByCategory(
   }));
 
   return formattedChartData;
+}
+
+
+
+// --- Type Definition for Budget Progress ---
+export type BudgetSummaryData = Budget & {
+  category: { name: string } | null;
+  totalSpent: number;
+};
+
+/**
+ * A server-only function that fetches active budgets and calculates the total
+ * amount spent for each one within its date range.
+ * @param userId The ID of the user.
+ * @returns A promise that resolves to an array of budget objects, each enhanced with the total amount spent.
+ */
+export async function getBudgetSummary(
+  userId: string
+): Promise<BudgetSummaryData[]> {
+  // 1. Fetch all of the user's budgets that are currently active or recent.
+  const now = new Date();
+  const budgets = await prisma.budget.findMany({
+    where: {
+      userId: userId,
+      endDate: { gte: now }, // Only fetch budgets that haven't ended yet
+    },
+    include: {
+      category: { select: { name: true } },
+    },
+    orderBy: {
+        endDate: 'asc',
+    }
+  });
+
+  // 2. For each budget, calculate the total spending in its category and date range.
+  // We use Promise.all to run these queries concurrently for performance.
+  const budgetSummaries = await Promise.all(
+    budgets.map(async (budget) => {
+      const spending = await prisma.transaction.aggregate({
+        _sum: {
+          amount: true,
+        },
+        where: {
+          userId: userId,
+          categoryId: budget.categoryId,
+          amount: { lt: 0 }, // Only sum expenses
+          transactionDate: {
+            gte: budget.startDate,
+            lte: budget.endDate,
+          },
+        },
+      });
+
+      // The aggregated amount is negative, so we make it positive.
+      const totalSpent = Math.abs(Number(spending._sum.amount) || 0);
+
+      return {
+        ...budget,
+        totalSpent,
+      };
+    })
+  );
+
+  return budgetSummaries;
 }

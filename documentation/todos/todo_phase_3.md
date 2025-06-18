@@ -15,7 +15,7 @@
 #### **Section 1: The Budgeting Module (The Control Center)**
 *This feature provides users with direct control over their spending goals. It requires a full CRUD (Create, Read, Update, Delete) implementation.*
 
--   [ ] **1.1: Backend - The Budgeting API (The Rules Engine)**
+-   [x] **1.1: Backend - The Budgeting API (The Rules Engine)**
     -   [ ] **Create the collection endpoint:** `src/app/api/budgets/route.ts`.
         -   **Implement `POST /api/budgets`:**
             -   This function will handle the creation of new budgets.
@@ -33,7 +33,7 @@
             -   **Logic:** Use `prisma.budget.delete({ where: { id: budgetId, userId: userId } })`.
             -   Return a `204 No Content` status on success.
 
--   [ ] **1.2: Frontend - The Budget Management Page (The Cockpit)**
+-   [x] **1.2: Frontend - The Budget Management Page (The Cockpit)**
     -   [ ] **Create the page:** `src/app/(app)/budgets/page.tsx`.
     -   [ ] **Data Fetching (Server Component):**
         -   Fetch all of the user's categories (`prisma.category.findMany(...)`).
