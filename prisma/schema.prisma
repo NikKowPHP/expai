@@ -60,6 +60,7 @@ model Category {
   name      String
   // 'need', 'want', 'saving', or 'discretionary' for "Science of Money" analysis
   type      String   @default("discretionary")
+  isUserCreated Boolean @default(false) @map("is_user_created")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

@@ -48,7 +48,7 @@
         -   **UI:** Use a `DataGrid` or a custom list to display each budget.
         -   **Interactivity:** Include "Edit" and "Delete" buttons on each row. These will trigger dialogs that call the `PATCH` and `DELETE` API endpoints respectively, followed by `router.refresh()`.
 
--   [ ] **1.3: The `BudgetProgress` Component (The Gauge)**
+-   [x] **1.3: The `BudgetProgress` Component (The Gauge)**
     -   [ ] **Create the data aggregation function:** In a server-only file (`src/lib/data/getBudgetSummary.ts`), create a function that takes a `userId`. This function will:
         1.  Fetch all active budgets.
         2.  For each budget, run a separate `prisma.transaction.aggregate` query to sum the expenses for that category within that budget's date range.
@@ -64,7 +64,7 @@
 #### **Section 2: The Gamification Engine (The Motivator)**
 *This section makes finance feel less like a chore and more like a game of personal improvement.*
 
--   [ ] **2.1: Seed the Static Achievement Data**
+-   [x] **2.1: Seed the Static Achievement Data**
     -   [ ] Create a file: `prisma/seed.ts`.
     -   [ ] In this script, use `prisma.achievement.upsert` to define the master list of all possible achievements. This ensures that the `achievements` table is always populated with the correct, static data when you set up a new environment.
     -   [ ] Add the `db seed` command to your `package.json`.
