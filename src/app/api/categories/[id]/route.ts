@@ -1,8 +1,8 @@
 // src/app/api/categories/[id]/route.ts
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import prisma from "@/lib/prisma";
-import { createServerSupabaseClient } from "@/lib/supabase/utils";
+import prisma from '@/lib/prisma';
+import { createServerSupabaseClient } from '@/lib/supabase/utils';
 
 // --- RENAME CATEGORY ---
 export async function PATCH(
@@ -10,17 +10,22 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const categoryId = params.id;
-  const { name } = await request.json(); // Get the new name from the request body
+  const { name, type } = await request.json(); // Get the new name and type from the request body
 
-  if (!name) {
-    return NextResponse.json({ error: "New name is required" }, { status: 400 });
+  if (!name && !type) {
+    return NextResponse.json(
+      { error: 'Name or type is required' },
+      { status: 400 }
+    );
   }
 
   try {
@@ -31,13 +36,14 @@ export async function PATCH(
         userId: user.id, // <-- Critical security check
       },
       data: {
-        name: name,
+        name: name || undefined, // Only update if name is provided
+        type: type || undefined, // Only update if type is provided
       },
     });
     return NextResponse.json(updatedCategory);
   } catch {
     return NextResponse.json(
-      { error: "Category not found or update failed" },
+      { error: 'Category not found or update failed' },
       { status: 404 }
     );
   }
@@ -49,10 +55,12 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const categoryId = params.id;
@@ -71,7 +79,7 @@ export async function DELETE(
     return new NextResponse(null, { status: 204 }); // 204 No Content is standard for successful DELETE
   } catch {
     return NextResponse.json(
-      { error: "Category not found or delete failed" },
+      { error: 'Category not found or delete failed' },
       { status: 404 }
     );
   }

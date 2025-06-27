@@ -55,14 +55,14 @@ model Account {
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  name      String
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  name          String
+  type          String   @default("want")
   // 'need', 'want', 'saving', or 'discretionary' for "Science of Money" analysis
-  type      String   @default("discretionary")
-  isUserCreated Boolean @default(false) @map("is_user_created")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  isUserCreated Boolean  @default(false) @map("is_user_created")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   // Relations
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -76,23 +76,23 @@ model Category {
 }
 
 model Transaction {
-  id              String   @id @default(uuid())
-  userId          String   @map("user_id")
-  accountId       String   @map("account_id")
-  categoryId      String?  @map("category_id")
+  id              String       @id @default(uuid())
+  userId          String       @map("user_id")
+  accountId       String       @map("account_id")
+  categoryId      String?      @map("category_id")
   description     String
-  amount          Decimal  @db.Decimal(19, 4)
-  transactionDate DateTime @map("transaction_date")
-  aiMetadata      Json?    @map("ai_metadata")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  amount          Decimal      @db.Decimal(19, 4)
+  transactionDate DateTime     @map("transaction_date")
+  aiMetadata      Json?        @map("ai_metadata")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
   signature       String
   // Relations
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  account       Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  category      Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
-  userProfileId String?
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account         Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category        Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  UserProfile     UserProfile? @relation(fields: [userProfileId], references: [id])
+  userProfileId   String?
 
   @@unique([userId, signature])
   @@index([userId])

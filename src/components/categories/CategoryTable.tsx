@@ -1,5 +1,5 @@
 // src/components/categories/CategoryTable.tsx
-"use client";
+'use client';
 
 import {
   Button,
@@ -17,15 +17,17 @@ import {
   DialogSurface,
   DialogTitle,
   DialogTrigger,
+  Dropdown,
   Field,
   Input,
+  Option,
   TableCellLayout,
   TableColumnDefinition,
-} from "@fluentui/react-components";
-import { Delete24Regular,Edit24Regular } from "@fluentui/react-icons";
-import type { Category } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+} from '@fluentui/react-components';
+import { Delete24Regular, Edit24Regular } from '@fluentui/react-icons';
+import type { Category } from '@prisma/client';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 // --- Type Definition ---
 // Augment the Prisma Category type with the transaction count
@@ -42,16 +44,20 @@ export const CategoryTable = ({
   categories: CategoryWithCount[];
 }) => {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<CategoryWithCount | null>(null);
-  const [renameValue, setRenameValue] = useState("");
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategoryWithCount | null>(null);
+  const [renameValue, setRenameValue] = useState('');
+  const [selectedType, setSelectedType] = useState<string | undefined>(
+    undefined
+  );
 
   const handleRename = async () => {
-    if (!selectedCategory || !renameValue) return;
+    if (!selectedCategory || (!renameValue && !selectedType)) return;
 
     await fetch(`/api/categories/${selectedCategory.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: renameValue }),
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: renameValue, type: selectedType }),
     });
 
     setSelectedCategory(null); // Close dialog
@@ -60,25 +66,27 @@ export const CategoryTable = ({
 
   const handleDelete = async (categoryId: string) => {
     await fetch(`/api/categories/${categoryId}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
     router.refresh();
   };
 
   const columns: TableColumnDefinition<CategoryWithCount>[] = [
     createTableColumn<CategoryWithCount>({
-      columnId: "name",
-      renderHeaderCell: () => "Category Name",
+      columnId: 'name',
+      renderHeaderCell: () => 'Category Name',
       renderCell: (item) => <TableCellLayout>{item.name}</TableCellLayout>,
     }),
     createTableColumn<CategoryWithCount>({
-      columnId: "transactionCount",
-      renderHeaderCell: () => "Transactions",
-      renderCell: (item) => <TableCellLayout>{item._count.transactions}</TableCellLayout>,
+      columnId: 'transactionCount',
+      renderHeaderCell: () => 'Transactions',
+      renderCell: (item) => (
+        <TableCellLayout>{item._count.transactions}</TableCellLayout>
+      ),
     }),
     createTableColumn<CategoryWithCount>({
-      columnId: "actions",
-      renderHeaderCell: () => "Actions",
+      columnId: 'actions',
+      renderHeaderCell: () => 'Actions',
       renderCell: (item) => (
         <div className="flex gap-2">
           {/* RENAME BUTTON & DIALOG */}
@@ -113,7 +121,9 @@ export const CategoryTable = ({
                   <DialogTrigger disableButtonEnhancement>
                     <Button appearance="secondary">Cancel</Button>
                   </DialogTrigger>
-                  <Button appearance="primary" onClick={handleRename}>Save</Button>
+                  <Button appearance="primary" onClick={handleRename}>
+                    Save
+                  </Button>
                 </DialogActions>
               </DialogBody>
             </DialogSurface>
@@ -128,14 +138,21 @@ export const CategoryTable = ({
               <DialogBody>
                 <DialogTitle>Delete Category</DialogTitle>
                 <DialogContent>
-                  Are you sure you want to delete the &quot;<strong>{item.name}</strong>&quot; category?
-                  This will uncategorize <strong>{item._count.transactions}</strong> transaction(s). This action cannot be undone.
+                  Are you sure you want to delete the &quot;
+                  <strong>{item.name}</strong>&quot; category? This will
+                  uncategorize <strong>{item._count.transactions}</strong>{' '}
+                  transaction(s). This action cannot be undone.
                 </DialogContent>
                 <DialogActions>
                   <DialogTrigger disableButtonEnhancement>
                     <Button appearance="secondary">Cancel</Button>
                   </DialogTrigger>
-                  <Button appearance="primary" onClick={() => handleDelete(item.id)}>Delete</Button>
+                  <Button
+                    appearance="primary"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    Delete
+                  </Button>
                 </DialogActions>
               </DialogBody>
             </DialogSurface>
