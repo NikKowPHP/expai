@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 // 1. Import your new Providers component
 import { Providers } from "./providers";
+import { ToastProvider } from "@/components/ui/use-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +36,11 @@ export default function RootLayout({
       >
         {/* 2. Use the Providers component to wrap your app's children */}
         {/*    DO NOT import or use FluentProvider directly here anymore. */}
-        <Providers>{children}</Providers>
+        <Providers>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -39,17 +39,17 @@
 #### **Section 3: Strategic Growth (The Engine of Expansion)**
 -   [ ] **3.1: Build the Ethical Marketplace (Secondary Revenue Stream)**
     -   [HUMAN] Research and form affiliate partnerships.
-    -   [ ] Create an "Opportunity Finder" service in `src/lib/services/opportunityService.ts`. This AI-driven service will scan a user's latest transaction data for optimization opportunities (e.g., high credit card interest).
-    -   [ ] Create frontend components to present the insight first (e.g., "You could save $X...") with a button to reveal the curated affiliate offer.
+    -   [x] Create an "Opportunity Finder" service in `src/lib/services/opportunityService.ts`. This AI-driven service will scan a user's latest transaction data for optimization opportunities (e.g., high credit card interest).
+    -   [x] Create frontend components to present the insight first (e.g., "You could save $X...") with a button to reveal the curated affiliate offer.
 
 -   [ ] **3.2: Develop "Expai for Work" (B2B Expansion)**
     -   [ ] **Phase 5a: Foundational B2B Schema & Admin Portal**
-        -   [ ] Extend the `prisma/schema.prisma` to include `Organization` and `OrganizationMember` models.
+        -   [x] Extend the `prisma/schema.prisma` to include `Organization` and `OrganizationMember` models.
         -   [HUMAN] Run `npx prisma db push` to apply the schema changes.
-        -   [ ] Build a new set of pages under `src/app/(b2b)/admin` for an organization admin dashboard.
-        -   [ ] Implement a user invitation flow (e.g., an admin enters an email, and a new user can sign up and be automatically linked to the organization).
+        -   [x] Build a new set of pages under `src/app/(b2b)/admin` for an organization admin dashboard.
+        -   [x] Implement a user invitation flow (e.g., an admin enters an email, and a new user can sign up and be automatically linked to the organization).
     -   [ ] **Phase 5b: Anonymized Reporting**
-        -   [ ] Create secure API endpoints that provide *aggregated and anonymized* data for an organization (e.g., average savings rate). Ensure it's impossible to trace back to an individual.
+        -   [x] Create secure API endpoints that provide *aggregated and anonymized* data for an organization (e.g., average savings rate). Ensure it's impossible to trace back to an individual.
         -   [ ] Build data visualizations for the B2B admin dashboard that display these anonymous insights.
 
 #### **Section 4: Technical Excellence & Maintenance (Foundation Care)**

@@ -156,6 +156,39 @@ model User {
   categories   Category[]
   transactions Transaction[]
   budgets      Budget[]
+  organizationMembers OrganizationMember[]
 
   @@map("users")
+}
+
+// B2B/Organization entities
+model Organization {
+  id          String               @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime             @default(now()) @map("created_at")
+  updatedAt   DateTime             @updatedAt @map("updated_at")
+  members     OrganizationMember[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String       @id @default(uuid())
+  userId         String       @map("user_id")
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           MemberRole   @default(MEMBER)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@unique([userId, organizationId])
+  @@map("organization_members")
+}
+
+enum MemberRole {
+  ADMIN
+  MEMBER
+  VIEWER
 }
