@@ -1,18 +1,22 @@
 // src/app/(app)/dashboard/page.tsx
 
 // --- Component Imports ---
-import { Title1 } from "@fluentui/react-components";
+import { Title1 } from '@fluentui/react-components';
 
-import { BudgetProgress } from "@/components/budgets/BudgetProgress"; // <-- Import new component
-import { SpendingDonutChart } from "@/components/charts/SpendingDonutChart";
-import { SpendingBreakdownPieChart } from "@/components/charts/SpendingBreakdownPieChart";
-import { TransactionTable } from "@/components/transactions/TransactionTable";
-import { StatementUploader } from "@/components/upload/StatementUploader";
+import { BudgetProgress } from '@/components/budgets/BudgetProgress';
+import { SpendingBreakdownPieChart } from '@/components/charts/SpendingBreakdownPieChart';
+import { SpendingDonutChart } from '@/components/charts/SpendingDonutChart';
+import Welcome from '@/components/onboarding/Welcome';
+import { TransactionTable } from '@/components/transactions/TransactionTable';
+import { StatementUploader } from '@/components/upload/StatementUploader';
 // --- Data Fetching & Server-Side Imports ---
-import { getBudgetSummary, getSpendingByCategory, getSpendingBreakdown } from "@/lib/data/getFinancialSummary";
-import prisma from "@/lib/prisma";
-import { createServerSupabaseClient } from "@/lib/supabase/utils";
-
+import {
+  getBudgetSummary,
+  getSpendingBreakdown,
+  getSpendingByCategory,
+} from '@/lib/data/getFinancialSummary';
+import prisma from '@/lib/prisma';
+import { createServerSupabaseClient } from '@/lib/supabase/utils';
 
 export default async function DashboardPage() {
   const supabase = createServerSupabaseClient();
@@ -28,24 +32,34 @@ export default async function DashboardPage() {
   const transactionsPromise = prisma.transaction.findMany({
     where: { userId: user.id },
     include: { category: { select: { name: true } } },
-    orderBy: { transactionDate: "desc" },
+    orderBy: { transactionDate: 'desc' },
     take: 50,
   });
   const spendingDataPromise = getSpendingByCategory(user.id);
   const categoriesPromise = prisma.category.findMany({
     where: { userId: user.id },
-    orderBy: { name: "asc" },
+    orderBy: { name: 'asc' },
   });
   const budgetSummaryPromise = getBudgetSummary(user.id); // <-- Add promise to fetch budget summary
 
   // Await all promises to resolve.
-  const [transactions, spendingData, categories, budgetSummaries, spendingBreakdown] = await Promise.all([
+  const [
+    transactions,
+    spendingData,
+    categories,
+    budgetSummaries,
+    spendingBreakdown,
+  ] = await Promise.all([
     transactionsPromise,
     spendingDataPromise,
     categoriesPromise,
     budgetSummaryPromise,
     getSpendingBreakdown(user.id),
   ]);
+
+  if (transactions.length === 0) {
+    return <Welcome />;
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -84,10 +98,7 @@ export default async function DashboardPage() {
       {/* --- Transactions Table Section --- */}
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Your Recent Transactions</h2>
-        <TransactionTable
-          transactions={transactions}
-          categories={categories}
-        />
+        <TransactionTable transactions={transactions} categories={categories} />
       </div>
     </div>
   );

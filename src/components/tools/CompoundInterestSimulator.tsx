@@ -1,23 +1,25 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
 import {
-  Slider,
-  Label,
-  Text,
   Card,
   CardHeader,
-} from "@fluentui/react-components";
+  Label,
+  Slider,
+  Text,
+} from '@fluentui/react-components';
+import React, { useEffect, useState } from 'react';
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+} from 'recharts';
+
+import { useSubscription } from '@/lib/hooks/useSubscription';
 
 interface InvestmentData {
   year: number;
@@ -33,7 +35,6 @@ export default function CompoundInterestSimulator() {
 
   useEffect(() => {
     const calculateGrowth = () => {
-      const annualContribution = monthlyContribution * 12;
       const rate = interestRate / 100;
       const monthlyRate = rate / 12;
       const newData: InvestmentData[] = [];
@@ -47,7 +48,7 @@ export default function CompoundInterestSimulator() {
         // Add annual contributions and compound them
         for (let j = 0; j < 12; j++) {
           currentValue += monthlyContribution;
-          currentValue *= (1 + monthlyRate);
+          currentValue *= 1 + monthlyRate;
         }
         newData.push({ year: i, value: Math.round(currentValue) });
       }
@@ -57,14 +58,51 @@ export default function CompoundInterestSimulator() {
     calculateGrowth();
   }, [initialAmount, monthlyContribution, interestRate, years]);
 
+  const { status, isLoading } = useSubscription();
+
+  if (isLoading) {
+    return (
+      <Card className="p-4 max-w-4xl mx-auto">
+        <CardHeader
+          header={<Text className="text-xl font-bold">Loading...</Text>}
+        />
+      </Card>
+    );
+  }
+
+  if (status === 'free') {
+    return (
+      <Card className="p-4 max-w-4xl mx-auto">
+        <CardHeader
+          header={<Text className="text-xl font-bold">Premium Feature</Text>}
+        />
+        <div className="p-4 text-center">
+          <Text className="mb-4">
+            The Compound Interest Simulator is available for Premium users only.
+          </Text>
+          <a
+            href="/pricing"
+            className="text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Upgrade to Premium
+          </a>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card className="p-4 max-w-4xl mx-auto">
       <CardHeader
-        header={<Text className="text-xl font-bold">Compound Interest Simulator</Text>}
+        header={
+          <Text className="text-xl font-bold">Compound Interest Simulator</Text>
+        }
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
-          <Label htmlFor="initialAmount">Initial Investment: ${initialAmount}</Label>
+          <Label htmlFor="initialAmount">
+            Initial Investment: ${initialAmount}
+          </Label>
           <Slider
             id="initialAmount"
             min={0}
@@ -75,7 +113,9 @@ export default function CompoundInterestSimulator() {
           />
         </div>
         <div>
-          <Label htmlFor="monthlyContribution">Monthly Contribution: ${monthlyContribution}</Label>
+          <Label htmlFor="monthlyContribution">
+            Monthly Contribution: ${monthlyContribution}
+          </Label>
           <Slider
             id="monthlyContribution"
             min={0}
@@ -86,7 +126,9 @@ export default function CompoundInterestSimulator() {
           />
         </div>
         <div>
-          <Label htmlFor="interestRate">Annual Interest Rate: {interestRate}%</Label>
+          <Label htmlFor="interestRate">
+            Annual Interest Rate: {interestRate}%
+          </Label>
           <Slider
             id="interestRate"
             min={0}
@@ -109,7 +151,7 @@ export default function CompoundInterestSimulator() {
         </div>
       </div>
 
-      <div style={{ width: "100%", height: 300 }}>
+      <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
           <LineChart
             data={data}
