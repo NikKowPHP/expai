@@ -5,10 +5,11 @@ import { Title1 } from "@fluentui/react-components";
 
 import { BudgetProgress } from "@/components/budgets/BudgetProgress"; // <-- Import new component
 import { SpendingDonutChart } from "@/components/charts/SpendingDonutChart";
+import { SpendingBreakdownPieChart } from "@/components/charts/SpendingBreakdownPieChart";
 import { TransactionTable } from "@/components/transactions/TransactionTable";
 import { StatementUploader } from "@/components/upload/StatementUploader";
 // --- Data Fetching & Server-Side Imports ---
-import { getBudgetSummary,getSpendingByCategory } from "@/lib/data/getFinancialSummary"; // <-- Import new function
+import { getBudgetSummary, getSpendingByCategory, getSpendingBreakdown } from "@/lib/data/getFinancialSummary";
 import prisma from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase/utils";
 
@@ -38,11 +39,12 @@ export default async function DashboardPage() {
   const budgetSummaryPromise = getBudgetSummary(user.id); // <-- Add promise to fetch budget summary
 
   // Await all promises to resolve.
-  const [transactions, spendingData, categories, budgetSummaries] = await Promise.all([
+  const [transactions, spendingData, categories, budgetSummaries, spendingBreakdown] = await Promise.all([
     transactionsPromise,
     spendingDataPromise,
     categoriesPromise,
-    budgetSummaryPromise, // <-- Await the new promise
+    budgetSummaryPromise,
+    getSpendingBreakdown(user.id),
   ]);
 
   return (
@@ -64,7 +66,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* --- Uploader and Chart Section --- */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         <div className="flex flex-col gap-4">
           <h2 className="text-xl font-bold">Upload Statement</h2>
           <StatementUploader />
@@ -72,6 +74,10 @@ export default async function DashboardPage() {
         <div className="flex flex-col gap-4">
           <h2 className="text-xl font-bold">Spending by Category</h2>
           <SpendingDonutChart data={spendingData} />
+        </div>
+        <div className="flex flex-col gap-4">
+          <h2 className="text-xl font-bold">Needs vs Wants</h2>
+          <SpendingBreakdownPieChart data={spendingBreakdown} />
         </div>
       </div>
 

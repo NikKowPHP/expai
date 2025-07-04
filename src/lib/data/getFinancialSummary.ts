@@ -120,3 +120,51 @@ export async function getBudgetSummary(
 
   return budgetSummaries;
 }
+
+export type SpendingBreakdownData = {
+  name: string; // "Need", "Want", or "Saving/Investment"
+  value: number; // Total amount spent
+};
+
+/**
+ * A server-only function that aggregates spending by category type (Need/Want/Saving)
+ * for a given user.
+ * @param userId The ID of the user.
+ * @returns A promise that resolves to an array of spending data by category type.
+ */
+export async function getSpendingBreakdown(
+  userId: string
+): Promise<SpendingBreakdownData[]> {
+  // 1. Fetch all transactions with their category data
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      userId: userId,
+      amount: { lt: 0 }, // Only include expenses (less than 0)
+      category: { isNot: null }, // Only include categorized transactions
+    },
+    include: {
+      category: {
+        select: {
+          type: true,
+        },
+      },
+    },
+  });
+
+  // 2. Manually group by category type and sum amounts
+  const spendingByType = new Map<string, number>();
+
+  transactions.forEach((transaction) => {
+    const type = transaction.category?.type || "Uncategorized";
+    const currentSum = spendingByType.get(type) || 0;
+    spendingByType.set(type, currentSum + Math.abs(Number(transaction.amount)));
+  });
+
+  // 3. Format the data for the charting library
+  const formattedData = Array.from(spendingByType.entries()).map(([type, sum]) => ({
+    name: type,
+    value: sum,
+  }));
+
+  return formattedData;
+}

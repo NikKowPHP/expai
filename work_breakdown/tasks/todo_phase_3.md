@@ -44,6 +44,6 @@
   - [HUMAN] Run `npx prisma db push` to apply the schema change to the database.
   - [x] Update the API route `src/app/api/categories/[id]/route.ts`. Modify the `PATCH` function to also accept and update the `type` field.
   - [x] Update the `CategoryTable.tsx` component. In each row, add a Fluent 2 `Dropdown` to allow users to set the category's `type` to "Need", "Want", or "Saving/Investment".
-  - [ ] Create a new data aggregation function `getSpendingBreakdown` in `src/lib/data/getFinancialSummary.ts`. It should use Prisma's `groupBy` on `category.type` to sum spending for each type.
-  - [ ] Create a new client component `src/components/charts/SpendingBreakdownPieChart.tsx` that uses `Recharts` to display the Needs vs. Wants data.
-  - [ ] In `dashboard/page.tsx`, call `getSpendingBreakdown` and render the new pie chart.
+  - [x] Create a new data aggregation function `getSpendingBreakdown` in `src/lib/data/getFinancialSummary.ts`. It should use Prisma's `groupBy` on `category.type` to sum spending for each type.
+  - [x] Create a new client component `src/components/charts/SpendingBreakdownPieChart.tsx` that uses `Recharts` to display the Needs vs. Wants data.
+  - [x] In `dashboard/page.tsx`, call `getSpendingBreakdown` and render the new pie chart.
