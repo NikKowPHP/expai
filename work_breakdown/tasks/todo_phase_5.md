@@ -58,7 +58,7 @@
     -   [HUMAN] Use `npm-check-updates` to review and update dependencies.
     -   [HUMAN] Dedicate time to refactoring and paying down technical debt.
 
--   [ ] **4.2: Enhance Documentation**
-    -   [ ] Update the project's `README.md` to reflect the current state of the project setup.
-    -   [ ] Create an `ADR` (Architectural Decision Record) directory in `/documentation/adr`.
-    -   [ ] Add a new file, `001-choice-of-sentry.md`, explaining the decision to use Sentry for error tracking.
+-   [x] **4.2: Enhance Documentation**
+    -   [x] Update the project's `README.md` to reflect the current state of the project setup.
+    -   [x] Create an `ADR` (Architectural Decision Record) directory in `/documentation/adr`.
+    -   [x] Add a new file, `001-choice-of-sentry.md`, explaining the decision to use Sentry for error tracking.
